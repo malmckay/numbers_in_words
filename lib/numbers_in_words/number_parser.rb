@@ -78,7 +78,7 @@ module NumbersInWords::NumberParser
   end
 
   def increment(current, delta)
-    if delta
+    if delta && delta != 0
       current = 0 if current.nil?
       current += delta
     else
