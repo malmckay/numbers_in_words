@@ -41,7 +41,7 @@ module NumbersInWords::NumberParser
   #5. finish - add memory to answer                          0      2001
   def parse(integers)
     memory = 0
-    answer = 0
+    answer = nil
     reset = true #reset each time memory is reset
     integers.each_with_index do |integer, index|
       if reset
@@ -53,7 +53,7 @@ module NumbersInWords::NumberParser
           if power_of_ten(integer)> 2
             memory *= integer
             #17. add memory to answer  (and reset) (memory pow of ten > 2)
-            answer += memory
+            answer = increment(answer, memory)
             memory = 0
             reset = true
           end
@@ -66,7 +66,7 @@ module NumbersInWords::NumberParser
         end
       end
     end
-    answer += memory
+    answer = increment(answer, memory)
   end
 
   def power_of_ten integer
@@ -75,6 +75,15 @@ module NumbersInWords::NumberParser
 
   def power_of_ten? integer
     power_of_ten(integer) == power_of_ten(integer).to_i
+  end
+
+  def increment(current, delta)
+    if delta
+      current = 0 if current.nil?
+      current += delta
+    else
+      current
+    end
   end
 
   extend self

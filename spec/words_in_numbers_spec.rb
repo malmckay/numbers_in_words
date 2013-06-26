@@ -14,6 +14,11 @@ describe WordsInNumbers do
     "nine"  .in_numbers.should == 9
   end
 
+  it "should return nil instead of zero for unparseable strings" do
+    "stuff"  .in_numbers.should == nil
+    ""       .in_numbers.should == nil
+  end
+
   it "should handle numbers for which there is one word" do
     "ten"       .in_numbers.should == 10
     "eleven"    .in_numbers.should == 11
