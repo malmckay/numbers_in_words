@@ -1,7 +1,7 @@
 module NumbersInWords
   module English
     class LanguageWriterEnglish < LanguageWriter
-      delegate :to_i, to: :that
+      delegate :to_i, :to => :that
 
       def initialize that
         super that
@@ -9,7 +9,7 @@ module NumbersInWords
       end
 
       def negative
-        "minus " + (-@that).in_words
+        "minus " + in_words_wrapper(-@that)
       end
 
       def in_words
@@ -33,7 +33,7 @@ module NumbersInWords
 
           digit = number - tens       #write the digits
 
-          output << " " + digit.in_words unless digit==0
+          output << " " + in_words_wrapper(digit) unless digit==0
         else
           output << write() #longer numbers
         end
@@ -67,23 +67,27 @@ module NumbersInWords
       def decimals
         int, decimals = NumberGroup.new(@that).split_decimals
         if int
-          out = int.in_words + " point "
+          out = in_words_wrapper(int) + " point "
           decimals.each do |decimal|
-            out << decimal.to_i.in_words + " "
+            out << in_words_wrapper(decimal.to_i) + " "
           end
           out.strip
         end
       end
 
       private
+      def in_words_wrapper(int)
+        NumbersInWords::ToWord.new(int).in_words
+      end
+
       def write_googols
         googols, remainder = NumberGroup.new(@that).split_googols
         output = ""
-        output << " " + googols.in_words + " googol"
+        output << " " + in_words_wrapper(googols) + " googol"
         if remainder > 0
           prefix = " "
           prefix << "and " if remainder < 100
-          output << prefix + remainder.in_words
+          output << prefix + in_words_wrapper(remainder)
         end
         output
       end
@@ -96,7 +100,7 @@ module NumbersInWords
             prefix = " "
             #no and between thousands and hundreds
             prefix << "and " if power == 0  and digits < 100
-            output << prefix + digits.in_words
+            output << prefix + in_words_wrapper(digits)
             output << prefix + name unless power == 0
           end
         end
