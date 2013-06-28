@@ -1,5 +1,5 @@
 class NumbersInWords::ToNumber
-  delegate :to_s, to: :that
+  delegate :to_s, :to => :that
   delegate :powers_of_ten_to_i, :exceptions_to_i, :to => :language
   attr_reader :that, :language
 
