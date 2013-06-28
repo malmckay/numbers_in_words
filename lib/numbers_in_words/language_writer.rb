@@ -1,7 +1,7 @@
 module NumbersInWords
   class LanguageWriter
     attr_reader :that
-    delegate :exceptions, :powers_of_ten, to: :language
+    delegate :exceptions, :powers_of_ten, :to => :language
 
     def initialize that
       @that = that
